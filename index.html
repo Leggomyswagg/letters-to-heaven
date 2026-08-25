@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letters to Heaven — A quiet place for what remains</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0a0e17;
+      --bg-card: #121826;
+      --bg-soft: #1a2233;
+      --accent: #c9a86c;
+      --accent-soft: rgba(201, 168, 108, 0.15);
+      --text-primary: #f0ebe3;
+      --text-secondary: #a8a29e;
+      --text-muted: #6b7280;
+      --border: rgba(201, 168, 108, 0.2);
+      --candle: #f5d78e;
+      --success: #7c9a7e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Subtle starfield */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 50% 70%, rgba(255,255,255,0.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.15) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.2) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-top: 1rem;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .logo-icon {
+      font-size: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 2.4rem;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Navigation */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .nav-tab:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .nav-tab.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Panels */
+    .panel {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card base */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .card p.desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Form elements */
+    label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 1.1rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+      line-height: 1.65;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.1rem;
+    }
+
+    .btn {
+      background: var(--accent);
+      color: var(--bg-deep);
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    /* Prompt chips */
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .prompt-chip {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .prompt-chip:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      background: var(--accent-soft);
+    }
+
+    /* Letters list */
+    .letters-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .letter-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .letter-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .letter-card .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .letter-card .to {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.25rem;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+
+    .letter-card .preview {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .letter-card .tags {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .candle-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: var(--candle);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+
+    /* Memory jar */
+    .memory-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .memory-item {
+      background: var(--bg-soft);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      border-left: 3px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .memory-item button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .memory-item button:hover {
+      color: #e07a7a;
+    }
+
+    /* View letter modal-like */
+    .letter-view {
+      display: none;
+    }
+
+    .letter-view.active {
+      display: block;
+    }
+
+    .letter-view .back-btn {
+      margin-bottom: 1.5rem;
+    }
+
+    .letter-view .letter-body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.2rem;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      color: var(--text-primary);
+    }
+
+    .letter-view .letter-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--bg-card);
+      border: 1px solid var(--accent);
+      color: var(--text-primary);
+      padding: 0.85rem 1.5rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Gentle note */
+    .gentle-note {
+      background: var(--accent-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .gentle-note strong {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      h1 { font-size: 1.9rem; }
+      .app { padding: 1.25rem 1rem 3rem; }
+      .card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <h1>Letters to Heaven</h1>
+      </div>
+      <p class="tagline">A quiet place for what remains</p>
+      <p class="subtitle">Write freely. Remember gently. Keep what matters close. Your words stay private by default — this space is only for you.</p>
+    </header>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-panel="write">Write</button>
+      <button class="nav-tab" data-panel="prompts">Journaling Prompts</button>
+      <button class="nav-tab" data-panel="memories">Memory Jar</button>
+      <button class="nav-tab" data-panel="vault">Vault</button>
+    </nav>
+
+    <!-- WRITE PANEL -->
+    <div id="panel-write" class="panel active">
+      <div class="card">
+        <h2>Write a letter</h2>
+        <p class="desc">Address it to someone you love and miss. Say what needs saying — unfinished words, updates, gratitude, anger, or simply “I remember.”</p>
+
+        <div class="gentle-note">
+          <strong>A gentle reminder:</strong> There is no right or wrong way to write. Messy, short, long, angry, tender — all of it belongs here. You can keep letters private or mark them as released when you’re ready.
+        </div>
+
+        <label for="letter-to">To</label>
+        <input type="text" id="letter-to" placeholder="Mom, Dad, Grandma June, my dear friend…">
+
+        <label for="letter-tags">Tags (optional)</label>
+        <input type="text" id="letter-tags" placeholder="gratitude, birthday, anniversary, memory…">
+
+        <label for="letter-body">Your letter</label>
+        <textarea id="letter-body" placeholder="Dear…&#10;&#10;I finally planted the hydrangeas…"></textarea>
+
+        <div class="btn-group">
+          <button class="btn" id="save-letter">Keep this letter</button>
+          <button class="btn btn-secondary" id="clear-letter">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROMPTS PANEL -->
+    <div id="panel-prompts" class="panel">
+      <div class="card">
+        <h2>Grief journaling prompts</h2>
+        <p class="desc">Choose a prompt that resonates today. It will open in the writing space. You can answer fully, write a single sentence, or let it lead somewhere else entirely.</p>
+
+        <div class="gentle-note">
+          Skip any prompt that feels too tender right now. Return when you’re ready. Grief has no timeline, and neither do these.
+        </div>
+
+        <h3 style="font-size:0.95rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:500;">Missing & Remembering</h3>
+        <div class="prompt-grid" id="prompts-remember">
+          <button class="prompt-chip" data-prompt="Today I am really missing…">Today I am really missing…</button>
+          <button class="prompt-chip" data-prompt="One ordinary moment I miss is…">One ordinary moment I miss is…</button>
+          <button class="prompt-chip" data-prompt="My happiest memory of you is…">My happiest memory of you is…</button>
+          <button class="prompt-chip" data-prompt="Something they always used to say was…">Something they always used to say was…</button>
+          <button class="prompt-chip" data-prompt="I still laugh when I remember…">I still laugh when I remember…</button>
+        </div>
+
+        <h3 style="font-size:0.95rem; color:var(--text-muted); margin:1.25rem 0 0.75rem; font-weight:500;">Emotions & the experience of grief</h3>
+        <div class="prompt-grid">
+          <button class="prompt-chip" data-prompt="Right now, grief feels like…">Right now, grief feels like…</button>
+          <button class="prompt-chip" data-prompt="I’ve been feeling… (and where do I feel it in my body?)">I’ve been feeling…</button>
+          <button class="prompt-chip" data-prompt="The hardest time of day is…">The hardest time of day is…</button>
+          <button class="prompt-chip" data-prompt="What no one sees is…">What no one sees is…</button>
+          <button class="prompt-chip" data-prompt="How has my grief changed over time?">How has my grief changed over time?</button>
+        </div>
+
+        <h3 style="font-size:0.95rem; color:var(--text-muted); margin:1.25rem 0 0.75rem; font-weight:500;">Unfinished business & connection</h3>
+        <div class="prompt-grid">
+          <button class="prompt-chip" data-prompt="This is what I have to say to you…">This is what I have to say to you…</button>
+          <button class="prompt-chip" data-prompt="What I wish I had said or done differently…">What I wish I had said or done differently…</button>
+          <button class="prompt-chip" data-prompt="Write the goodbye you didn’t get to say.">The goodbye I didn’t get to say…</button>
+          <button class="prompt-chip" data-prompt="What would they say to me if they could see me right now?">What would they say to me right now?</button>
+        </div>
+
+        <h3 style="font-size:0.95rem; color:var(--text-muted); margin:1.25rem 0 0.75rem; font-weight:500;">Meaning, legacy & moving forward</h3>
+        <div class="prompt-grid">
+          <button class="prompt-chip" data-prompt="What did they teach me about how to live?">What did they teach me about how to live?</button>
+          <button class="prompt-chip" data-prompt="What am I carrying forward from this relationship?">What am I carrying forward?</button>
+          <button class="prompt-chip" data-prompt="I can honor them by…">I can honor them by…</button>
+          <button class="prompt-chip" data-prompt="What permission am I giving myself now?">What permission am I giving myself now?</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMORIES PANEL -->
+    <div id="panel-memories" class="panel">
+      <div class="card">
+        <h2>Memory Jar</h2>
+        <p class="desc">Gather small, ordinary, and precious memories so they don’t fade. Later, expand any one into a fuller letter or reflection.</p>
+
+        <div class="gentle-note">
+          Set a timer for 5 minutes and list whatever comes. Ordinary moments often hold the most light. You can return and add more anytime.
+        </div>
+
+        <label for="memory-input">Add a memory</label>
+        <textarea id="memory-input" style="min-height:90px;" placeholder="The way she always called on Sunday mornings…&#10;The smell of his coffee in the kitchen…"></textarea>
+        <div class="btn-group">
+          <button class="btn" id="add-memory">Place in the jar</button>
+        </div>
+
+        <div id="memory-list" class="memory-list" style="margin-top:1.5rem;"></div>
+      </div>
+    </div>
+
+    <!-- VAULT PANEL -->
+    <div id="panel-vault" class="panel">
+      <div class="card">
+        <h2>Your Vault</h2>
+        <p class="desc">Letters you’ve kept close. Private by default. Light a candle when you revisit one.</p>
+
+        <div id="letters-container" class="letters-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <div id="empty-vault" class="empty-state" style="display:none;">
+          <div class="icon">✦</div>
+          <p>Your vault is quiet for now.<br>When you’re ready, write your first letter.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LETTER VIEW -->
+    <div id="panel-view" class="panel letter-view">
+      <div class="card">
+        <button class="btn btn-secondary back-btn" id="back-to-vault">← Back to Vault</button>
+        <div class="letter-header">
+          <div class="to" id="view-to" style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--accent);"></div>
+          <div class="meta" id="view-meta" style="font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem;"></div>
+          <div class="tags" id="view-tags" style="margin-top:0.75rem;"></div>
+        </div>
+        <div class="letter-body" id="view-body"></div>
+        <div class="btn-group" style="margin-top:2rem;">
+          <button class="btn" id="light-candle">✦ Light a candle</button>
+          <button class="btn btn-secondary" id="delete-letter">Release this letter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // --- State ---
+    let letters = JSON.parse(localStorage.getItem('lettersToHeaven') || '[]');
+    let memories = JSON.parse(localStorage.getItem('memoryJar') || '[]');
+    let currentViewId = null;
+
+    // --- Helpers ---
+    function saveLetters() {
+      localStorage.setItem('lettersToHeaven', JSON.stringify(letters));
+    }
+
+    function saveMemories() {
+      localStorage.setItem('memoryJar', JSON.stringify(memories));
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // --- Navigation ---
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+        if (tab.dataset.panel === 'vault') renderVault();
+        if (tab.dataset.panel === 'memories') renderMemories();
+      });
+    });
+
+    // --- Write Letter ---
+    document.getElementById('save-letter').addEventListener('click', () => {
+      const to = document.getElementById('letter-to').value.trim();
+      const body = document.getElementById('letter-body').value.trim();
+      const tagsRaw = document.getElementById('letter-tags').value.trim();
+
+      if (!to || !body) {
+        showToast('Please add a recipient and some words.');
+        return;
+      }
+
+      const letter = {
+        id: Date.now().toString(),
+        to,
+        body,
+        tags: tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [],
+        created: new Date().toISOString(),
+        candles: 0
+      };
+
+      letters.unshift(letter);
+      saveLetters();
+      showToast('Letter kept safely in your vault.');
+      document.getElementById('letter-to').value = '';
+      document.getElementById('letter-body').value = '';
+      document.getElementById('letter-tags').value = '';
+    });
+
+    document.getElementById('clear-letter').addEventListener('click', () => {
+      document.getElementById('letter-to').value = '';
+      document.getElementById('letter-body').value = '';
+      document.getElementById('letter-tags').value = '';
+    });
+
+    // --- Prompts ---
+    document.querySelectorAll('.prompt-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const prompt = chip.dataset.prompt;
+        document.getElementById('letter-body').value = prompt + '\n\n';
+        // Switch to write panel
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelector('[data-panel="write"]').classList.add('active');
+        document.getElementById('panel-write').classList.add('active');
+        document.getElementById('letter-body').focus();
+        showToast('Prompt ready — write freely.');
+      });
+    });
+
+    // --- Memory Jar ---
+    function renderMemories() {
+      const list = document.getElementById('memory-list');
+      if (memories.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem; text-align:center; padding:1rem;">Your jar is empty. Begin with one small memory.</p>';
+        return;
+      }
+      list.innerHTML = memories.map((m, i) => `
+        <div class="memory-item">
+          <span>${m.text}</span>
+          <button data-index="${i}" title="Remove">✕</button>
+        </div>
+      `).join('');
+
+      list.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          memories.splice(parseInt(btn.dataset.index), 1);
+          saveMemories();
+          renderMemories();
+          showToast('Memory released.');
+        });
+      });
+    }
+
+    document.getElementById('add-memory').addEventListener('click', () => {
+      const text = document.getElementById('memory-input').value.trim();
+      if (!text) return;
+      memories.unshift({ text, created: new Date().toISOString() });
+      saveMemories();
+      document.getElementById('memory-input').value = '';
+      renderMemories();
+      showToast('Memory placed in the jar.');
+    });
+
+    // --- Vault ---
+    function renderVault() {
+      const container = document.getElementById('letters-container');
+      const empty = document.getElementById('empty-vault');
+
+      if (letters.length === 0) {
+        container.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+
+      container.innerHTML = letters.map(l => `
+        <div class="letter-card" data-id="${l.id}">
+          <div class="meta">
+            <span>${formatDate(l.created)}</span>
+            <span class="candle-count">✦ ${l.candles || 0}</span>
+          </div>
+          <div class="to">To ${l.to}</div>
+          <div class="preview">${l.body.substring(0, 140)}${l.body.length > 140 ? '…' : ''}</div>
+          ${l.tags && l.tags.length ? `<div class="tags">${l.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.letter-card').forEach(card => {
+        card.addEventListener('click', () => viewLetter(card.dataset.id));
+      });
+    }
+
+    function viewLetter(id) {
+      const letter = letters.find(l => l.id === id);
+      if (!letter) return;
+      currentViewId = id;
+
+      document.getElementById('view-to').textContent = 'To ' + letter.to;
+      document.getElementById('view-meta').textContent = formatDate(letter.created) + (letter.candles ? ` · ${letter.candles} candle${letter.candles > 1 ? 's' : ''} lit` : '');
+      document.getElementById('view-body').textContent = letter.body;
+      document.getElementById('view-tags').innerHTML = (letter.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-view').classList.add('active');
+    }
+
+    document.getElementById('back-to-vault').addEventListener('click', () => {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-panel="vault"]').classList.add('active');
+      document.getElementById('panel-vault').classList.add('active');
+      renderVault();
+    });
+
+    document.getElementById('light-candle').addEventListener('click', () => {
+      const letter = letters.find(l => l.id === currentViewId);
+      if (!letter) return;
+      letter.candles = (letter.candles || 0) + 1;
+      saveLetters();
+      document.getElementById('view-meta').textContent = formatDate(letter.created) + ` · ${letter.candles} candle${letter.candles > 1 ? 's' : ''} lit`;
+      showToast('A candle has been lit.');
+    });
+
+    document.getElementById('delete-letter').addEventListener('click', () => {
+      if (!confirm('Release this letter from your vault? This cannot be undone.')) return;
+      letters = letters.filter(l => l.id !== currentViewId);
+      saveLetters();
+      showToast('Letter released.');
+      document.getElementById('back-to-vault').click();
+    });
+
+    // Initial render
+    renderVault();
+    renderMemories();
+  </script>
+</body>
+</html>
