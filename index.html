@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="description" content="A quiet place for what remains — gentle grief journaling and letter writing">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <title>Letters to Heaven — A quiet place for what remains</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,11 +28,7 @@
       --success: #7c9a7e;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Inter', system-ui, sans-serif;
@@ -37,7 +39,6 @@
       overflow-x: hidden;
     }
 
-    /* Subtle starfield */
     body::before {
       content: '';
       position: fixed;
@@ -60,7 +61,6 @@
       padding: 2rem 1.5rem 4rem;
     }
 
-    /* Header */
     header {
       text-align: center;
       margin-bottom: 3rem;
@@ -74,9 +74,7 @@
       margin-bottom: 0.75rem;
     }
 
-    .logo-icon {
-      font-size: 1.5rem;
-    }
+    .logo-icon { font-size: 1.5rem; }
 
     h1 {
       font-family: 'Cormorant Garamond', Georgia, serif;
@@ -103,7 +101,6 @@
       margin-right: auto;
     }
 
-    /* Navigation */
     .nav-tabs {
       display: flex;
       justify-content: center;
@@ -124,33 +121,21 @@
       font-family: inherit;
     }
 
-    .nav-tab:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
+    .nav-tab:hover { border-color: var(--accent); color: var(--accent); }
     .nav-tab.active {
       background: var(--accent-soft);
       border-color: var(--accent);
       color: var(--accent);
     }
 
-    /* Panels */
-    .panel {
-      display: none;
-      animation: fadeIn 0.35s ease;
-    }
-
-    .panel.active {
-      display: block;
-    }
+    .panel { display: none; animation: fadeIn 0.35s ease; }
+    .panel.active { display: block; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Card base */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -173,7 +158,6 @@
       margin-bottom: 1.25rem;
     }
 
-    /* Form elements */
     label {
       display: block;
       font-size: 0.8rem;
@@ -183,9 +167,7 @@
       letter-spacing: 0.04em;
     }
 
-    input[type="text"],
-    select,
-    textarea {
+    input[type="text"], select, textarea {
       width: 100%;
       background: var(--bg-soft);
       border: 1px solid var(--border);
@@ -224,10 +206,7 @@
       font-family: inherit;
     }
 
-    .btn:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-    }
+    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
     .btn-secondary {
       background: transparent;
@@ -247,7 +226,6 @@
       margin-top: 0.5rem;
     }
 
-    /* Prompt chips */
     .prompt-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -274,11 +252,7 @@
       background: var(--accent-soft);
     }
 
-    /* Letters list */
-    .letters-grid {
-      display: grid;
-      gap: 1rem;
-    }
+    .letters-grid { display: grid; gap: 1rem; }
 
     .letter-card {
       background: var(--bg-soft);
@@ -343,10 +317,9 @@
       color: var(--candle);
     }
 
-    /* Empty state */
     .empty-state {
       text-align: center;
-      padding: 3rem 1rem;
+      padding: 3rem 1.5rem;
       color: var(--text-muted);
     }
 
@@ -356,7 +329,14 @@
       opacity: 0.6;
     }
 
-    /* Memory jar */
+    .empty-state h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.4rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.6rem;
+      font-weight: 500;
+    }
+
     .memory-list {
       display: flex;
       flex-direction: column;
@@ -388,22 +368,11 @@
       flex-shrink: 0;
     }
 
-    .memory-item button:hover {
-      color: #e07a7a;
-    }
+    .memory-item button:hover { color: #e07a7a; }
 
-    /* View letter modal-like */
-    .letter-view {
-      display: none;
-    }
-
-    .letter-view.active {
-      display: block;
-    }
-
-    .letter-view .back-btn {
-      margin-bottom: 1.5rem;
-    }
+    .letter-view { display: none; }
+    .letter-view.active { display: block; }
+    .letter-view .back-btn { margin-bottom: 1.5rem; }
 
     .letter-view .letter-body {
       font-family: 'Cormorant Garamond', Georgia, serif;
@@ -419,7 +388,6 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -434,7 +402,10 @@
       opacity: 0;
       transition: all 0.3s ease;
       z-index: 100;
-      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 90vw;
     }
 
     .toast.show {
@@ -442,7 +413,18 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Gentle note */
+    .toast .undo-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-decoration: underline;
+      padding: 0;
+      font-family: inherit;
+    }
+
     .gentle-note {
       background: var(--accent-soft);
       border: 1px solid var(--border);
@@ -454,11 +436,71 @@
       line-height: 1.5;
     }
 
-    .gentle-note strong {
-      color: var(--accent);
+    .gentle-note strong { color: var(--accent); }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
-    /* Responsive */
+    .section-header h2 { margin-bottom: 0; }
+
+    .random-btn {
+      font-size: 0.85rem;
+      padding: 0.5rem 1.1rem;
+    }
+
+    .editing-banner {
+      background: rgba(201, 168, 108, 0.12);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+
+    .editing-banner.visible { display: block; }
+
+    .vault-actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .onboarding {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .onboarding h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .onboarding p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .onboarding .btn { margin: 0 0.3rem; }
+
     @media (max-width: 640px) {
       h1 { font-size: 1.9rem; }
       .app { padding: 1.25rem 1rem 3rem; }
@@ -487,11 +529,17 @@
     <!-- WRITE PANEL -->
     <div id="panel-write" class="panel active">
       <div class="card">
-        <h2>Write a letter</h2>
-        <p class="desc">Address it to someone you love and miss. Say what needs saying — unfinished words, updates, gratitude, anger, or simply “I remember.”</p>
+        <div class="section-header">
+          <h2 id="write-title">Write a letter</h2>
+        </div>
+        <p class="desc" id="write-desc">Address it to someone you love and miss. Say what needs saying — unfinished words, updates, gratitude, anger, or simply “I remember.”</p>
+
+        <div class="editing-banner" id="editing-banner">
+          You are editing an existing letter. Save to update it.
+        </div>
 
         <div class="gentle-note">
-          <strong>A gentle reminder:</strong> There is no right or wrong way to write. Messy, short, long, angry, tender — all of it belongs here. You can keep letters private or mark them as released when you’re ready.
+          <strong>A gentle reminder:</strong> There is no right or wrong way to write. Messy, short, long, angry, tender — all of it belongs here.
         </div>
 
         <label for="letter-to">To</label>
@@ -506,6 +554,7 @@
         <div class="btn-group">
           <button class="btn" id="save-letter">Keep this letter</button>
           <button class="btn btn-secondary" id="clear-letter">Clear</button>
+          <button class="btn btn-secondary" id="cancel-edit" style="display:none;">Cancel edit</button>
         </div>
       </div>
     </div>
@@ -513,7 +562,10 @@
     <!-- PROMPTS PANEL -->
     <div id="panel-prompts" class="panel">
       <div class="card">
-        <h2>Grief journaling prompts</h2>
+        <div class="section-header">
+          <h2>Grief journaling prompts</h2>
+          <button class="btn btn-secondary random-btn" id="random-prompt">✦ Surprise me</button>
+        </div>
         <p class="desc">Choose a prompt that resonates today. It will open in the writing space. You can answer fully, write a single sentence, or let it lead somewhere else entirely.</p>
 
         <div class="gentle-note">
@@ -521,7 +573,7 @@
         </div>
 
         <h3 style="font-size:0.95rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:500;">Missing & Remembering</h3>
-        <div class="prompt-grid" id="prompts-remember">
+        <div class="prompt-grid">
           <button class="prompt-chip" data-prompt="Today I am really missing…">Today I am really missing…</button>
           <button class="prompt-chip" data-prompt="One ordinary moment I miss is…">One ordinary moment I miss is…</button>
           <button class="prompt-chip" data-prompt="My happiest memory of you is…">My happiest memory of you is…</button>
@@ -579,16 +631,32 @@
     <!-- VAULT PANEL -->
     <div id="panel-vault" class="panel">
       <div class="card">
-        <h2>Your Vault</h2>
+        <div class="section-header">
+          <h2>Your Vault</h2>
+        </div>
         <p class="desc">Letters you’ve kept close. Private by default. Light a candle when you revisit one.</p>
 
-        <div id="letters-container" class="letters-grid">
-          <!-- Populated by JS -->
+        <div class="vault-actions" id="vault-actions" style="display:none;">
+          <button class="btn btn-secondary" id="export-all">↓ Export all letters</button>
         </div>
+
+        <div id="onboarding" class="onboarding" style="display:none;">
+          <h3>Welcome to your quiet space</h3>
+          <p>This is a private place to write letters, capture memories, and sit with what remains. Nothing leaves your device. Start whenever you feel ready.</p>
+          <button class="btn" id="start-writing">Begin with a letter</button>
+          <button class="btn btn-secondary" id="try-prompt">Try a prompt</button>
+        </div>
+
+        <div id="letters-container" class="letters-grid"></div>
 
         <div id="empty-vault" class="empty-state" style="display:none;">
           <div class="icon">✦</div>
-          <p>Your vault is quiet for now.<br>When you’re ready, write your first letter.</p>
+          <h3>Your vault is quiet for now</h3>
+          <p>When you’re ready, write your first letter.<br>There is no pressure and no timeline.</p>
+          <div class="btn-group" style="justify-content:center; margin-top:1.25rem;">
+            <button class="btn" id="empty-start-write">Write a letter</button>
+            <button class="btn btn-secondary" id="empty-try-prompt">Browse prompts</button>
+          </div>
         </div>
       </div>
     </div>
@@ -605,19 +673,49 @@
         <div class="letter-body" id="view-body"></div>
         <div class="btn-group" style="margin-top:2rem;">
           <button class="btn" id="light-candle">✦ Light a candle</button>
+          <button class="btn btn-secondary" id="edit-letter">Edit</button>
+          <button class="btn btn-secondary" id="download-letter">↓ Download</button>
           <button class="btn btn-secondary" id="delete-letter">Release this letter</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast">
+    <span id="toast-msg"></span>
+    <button class="undo-btn" id="toast-undo" style="display:none;">Undo</button>
+  </div>
 
   <script>
     // --- State ---
     let letters = JSON.parse(localStorage.getItem('lettersToHeaven') || '[]');
     let memories = JSON.parse(localStorage.getItem('memoryJar') || '[]');
     let currentViewId = null;
+    let editingId = null;
+    let pendingDelete = null;
+    let undoTimer = null;
+    let hasSeenOnboarding = localStorage.getItem('lettersOnboardingSeen') === 'true';
+
+    const ALL_PROMPTS = [
+      "Today I am really missing…",
+      "One ordinary moment I miss is…",
+      "My happiest memory of you is…",
+      "Something they always used to say was…",
+      "I still laugh when I remember…",
+      "Right now, grief feels like…",
+      "I’ve been feeling… (and where do I feel it in my body?)",
+      "The hardest time of day is…",
+      "What no one sees is…",
+      "How has my grief changed over time?",
+      "This is what I have to say to you…",
+      "What I wish I had said or done differently…",
+      "Write the goodbye you didn’t get to say.",
+      "What would they say to me if they could see me right now?",
+      "What did they teach me about how to live?",
+      "What am I carrying forward from this relationship?",
+      "I can honor them by…",
+      "What permission am I giving myself now?"
+    ];
 
     // --- Helpers ---
     function saveLetters() {
@@ -628,11 +726,17 @@
       localStorage.setItem('memoryJar', JSON.stringify(memories));
     }
 
-    function showToast(msg) {
+    function showToast(msg, showUndo = false) {
       const t = document.getElementById('toast');
-      t.textContent = msg;
+      const msgEl = document.getElementById('toast-msg');
+      const undoBtn = document.getElementById('toast-undo');
+      msgEl.textContent = msg;
+      undoBtn.style.display = showUndo ? 'inline' : 'none';
       t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2600);
+      clearTimeout(undoTimer);
+      if (!showUndo) {
+        undoTimer = setTimeout(() => t.classList.remove('show'), 2800);
+      }
     }
 
     function formatDate(iso) {
@@ -640,15 +744,32 @@
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
+    function switchPanel(name) {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      const tab = document.querySelector(`[data-panel="${name}"]`);
+      if (tab) tab.classList.add('active');
+      document.getElementById('panel-' + name).classList.add('active');
+      if (name === 'vault') renderVault();
+      if (name === 'memories') renderMemories();
+    }
+
+    function resetWriteForm() {
+      editingId = null;
+      document.getElementById('letter-to').value = '';
+      document.getElementById('letter-body').value = '';
+      document.getElementById('letter-tags').value = '';
+      document.getElementById('write-title').textContent = 'Write a letter';
+      document.getElementById('write-desc').textContent = 'Address it to someone you love and miss. Say what needs saying — unfinished words, updates, gratitude, anger, or simply “I remember.”';
+      document.getElementById('editing-banner').classList.remove('visible');
+      document.getElementById('save-letter').textContent = 'Keep this letter';
+      document.getElementById('cancel-edit').style.display = 'none';
+    }
+
     // --- Navigation ---
     document.querySelectorAll('.nav-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
-        if (tab.dataset.panel === 'vault') renderVault();
-        if (tab.dataset.panel === 'memories') renderMemories();
+        switchPanel(tab.dataset.panel);
       });
     });
 
@@ -663,6 +784,21 @@
         return;
       }
 
+      if (editingId) {
+        const letter = letters.find(l => l.id === editingId);
+        if (letter) {
+          letter.to = to;
+          letter.body = body;
+          letter.tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+          letter.updated = new Date().toISOString();
+          saveLetters();
+          showToast('Letter updated.');
+          resetWriteForm();
+          switchPanel('vault');
+          return;
+        }
+      }
+
       const letter = {
         id: Date.now().toString(),
         to,
@@ -675,30 +811,45 @@
       letters.unshift(letter);
       saveLetters();
       showToast('Letter kept safely in your vault.');
-      document.getElementById('letter-to').value = '';
-      document.getElementById('letter-body').value = '';
-      document.getElementById('letter-tags').value = '';
+      resetWriteForm();
+      hasSeenOnboarding = true;
+      localStorage.setItem('lettersOnboardingSeen', 'true');
     });
 
     document.getElementById('clear-letter').addEventListener('click', () => {
-      document.getElementById('letter-to').value = '';
-      document.getElementById('letter-body').value = '';
-      document.getElementById('letter-tags').value = '';
+      if (editingId) {
+        resetWriteForm();
+      } else {
+        document.getElementById('letter-to').value = '';
+        document.getElementById('letter-body').value = '';
+        document.getElementById('letter-tags').value = '';
+      }
+    });
+
+    document.getElementById('cancel-edit').addEventListener('click', () => {
+      resetWriteForm();
+      switchPanel('vault');
     });
 
     // --- Prompts ---
     document.querySelectorAll('.prompt-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         const prompt = chip.dataset.prompt;
+        resetWriteForm();
         document.getElementById('letter-body').value = prompt + '\n\n';
-        // Switch to write panel
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelector('[data-panel="write"]').classList.add('active');
-        document.getElementById('panel-write').classList.add('active');
+        switchPanel('write');
         document.getElementById('letter-body').focus();
         showToast('Prompt ready — write freely.');
       });
+    });
+
+    document.getElementById('random-prompt').addEventListener('click', () => {
+      const prompt = ALL_PROMPTS[Math.floor(Math.random() * ALL_PROMPTS.length)];
+      resetWriteForm();
+      document.getElementById('letter-body').value = prompt + '\n\n';
+      switchPanel('write');
+      document.getElementById('letter-body').focus();
+      showToast('A prompt found you.');
     });
 
     // --- Memory Jar ---
@@ -739,18 +890,30 @@
     function renderVault() {
       const container = document.getElementById('letters-container');
       const empty = document.getElementById('empty-vault');
+      const onboarding = document.getElementById('onboarding');
+      const actions = document.getElementById('vault-actions');
 
       if (letters.length === 0) {
         container.innerHTML = '';
-        empty.style.display = 'block';
+        actions.style.display = 'none';
+        if (!hasSeenOnboarding) {
+          onboarding.style.display = 'block';
+          empty.style.display = 'none';
+        } else {
+          onboarding.style.display = 'none';
+          empty.style.display = 'block';
+        }
         return;
       }
+
+      onboarding.style.display = 'none';
       empty.style.display = 'none';
+      actions.style.display = 'flex';
 
       container.innerHTML = letters.map(l => `
         <div class="letter-card" data-id="${l.id}">
           <div class="meta">
-            <span>${formatDate(l.created)}</span>
+            <span>${formatDate(l.created)}${l.updated ? ' · edited' : ''}</span>
             <span class="candle-count">✦ ${l.candles || 0}</span>
           </div>
           <div class="to">To ${l.to}</div>
@@ -770,7 +933,7 @@
       currentViewId = id;
 
       document.getElementById('view-to').textContent = 'To ' + letter.to;
-      document.getElementById('view-meta').textContent = formatDate(letter.created) + (letter.candles ? ` · ${letter.candles} candle${letter.candles > 1 ? 's' : ''} lit` : '');
+      document.getElementById('view-meta').textContent = formatDate(letter.created) + (letter.candles ? ` · ${letter.candles} candle${letter.candles > 1 ? 's' : ''} lit` : '') + (letter.updated ? ' · edited' : '');
       document.getElementById('view-body').textContent = letter.body;
       document.getElementById('view-tags').innerHTML = (letter.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
@@ -779,11 +942,7 @@
     }
 
     document.getElementById('back-to-vault').addEventListener('click', () => {
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-      document.querySelector('[data-panel="vault"]').classList.add('active');
-      document.getElementById('panel-vault').classList.add('active');
-      renderVault();
+      switchPanel('vault');
     });
 
     document.getElementById('light-candle').addEventListener('click', () => {
@@ -791,21 +950,110 @@
       if (!letter) return;
       letter.candles = (letter.candles || 0) + 1;
       saveLetters();
-      document.getElementById('view-meta').textContent = formatDate(letter.created) + ` · ${letter.candles} candle${letter.candles > 1 ? 's' : ''} lit`;
+      document.getElementById('view-meta').textContent = formatDate(letter.created) + ` · ${letter.candles} candle${letter.candles > 1 ? 's' : ''} lit` + (letter.updated ? ' · edited' : '');
       showToast('A candle has been lit.');
     });
 
+    // Edit letter
+    document.getElementById('edit-letter').addEventListener('click', () => {
+      const letter = letters.find(l => l.id === currentViewId);
+      if (!letter) return;
+      editingId = letter.id;
+      document.getElementById('letter-to').value = letter.to;
+      document.getElementById('letter-body').value = letter.body;
+      document.getElementById('letter-tags').value = (letter.tags || []).join(', ');
+      document.getElementById('write-title').textContent = 'Edit letter';
+      document.getElementById('write-desc').textContent = 'Make any changes you need. Your previous version will be updated when you save.';
+      document.getElementById('editing-banner').classList.add('visible');
+      document.getElementById('save-letter').textContent = 'Save changes';
+      document.getElementById('cancel-edit').style.display = 'inline-block';
+      switchPanel('write');
+      document.getElementById('letter-body').focus();
+    });
+
+    // Download single letter
+    document.getElementById('download-letter').addEventListener('click', () => {
+      const letter = letters.find(l => l.id === currentViewId);
+      if (!letter) return;
+      const content = `To ${letter.to}\n${formatDate(letter.created)}\n\n${letter.body}\n`;
+      downloadText(content, `letter-to-${letter.to.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.txt`);
+      showToast('Letter downloaded.');
+    });
+
+    // Soft delete with undo
     document.getElementById('delete-letter').addEventListener('click', () => {
-      if (!confirm('Release this letter from your vault? This cannot be undone.')) return;
+      const letter = letters.find(l => l.id === currentViewId);
+      if (!letter) return;
+
+      pendingDelete = { ...letter };
       letters = letters.filter(l => l.id !== currentViewId);
       saveLetters();
-      showToast('Letter released.');
-      document.getElementById('back-to-vault').click();
+
+      showToast('Letter released.', true);
+      switchPanel('vault');
+
+      clearTimeout(undoTimer);
+      undoTimer = setTimeout(() => {
+        pendingDelete = null;
+        document.getElementById('toast').classList.remove('show');
+      }, 7000);
     });
+
+    document.getElementById('toast-undo').addEventListener('click', () => {
+      if (pendingDelete) {
+        letters.unshift(pendingDelete);
+        saveLetters();
+        pendingDelete = null;
+        showToast('Letter restored.');
+        renderVault();
+      }
+      document.getElementById('toast').classList.remove('show');
+      clearTimeout(undoTimer);
+    });
+
+    // Export all
+    document.getElementById('export-all').addEventListener('click', () => {
+      if (letters.length === 0) return;
+      let md = `# Letters to Heaven\n\nExported on ${new Date().toLocaleDateString()}\n\n---\n\n`;
+      letters.forEach(l => {
+        md += `## To ${l.to}\n*${formatDate(l.created)}*${l.candles ? ` · ${l.candles} candle${l.candles > 1 ? 's' : ''}` : ''}\n\n${l.body}\n\n---\n\n`;
+      });
+      downloadText(md, `letters-to-heaven-${new Date().toISOString().slice(0,10)}.md`);
+      showToast('All letters exported.');
+    });
+
+    function downloadText(content, filename) {
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Onboarding buttons
+    document.getElementById('start-writing').addEventListener('click', () => {
+      hasSeenOnboarding = true;
+      localStorage.setItem('lettersOnboardingSeen', 'true');
+      switchPanel('write');
+    });
+    document.getElementById('try-prompt').addEventListener('click', () => {
+      hasSeenOnboarding = true;
+      localStorage.setItem('lettersOnboardingSeen', 'true');
+      switchPanel('prompts');
+    });
+    document.getElementById('empty-start-write').addEventListener('click', () => switchPanel('write'));
+    document.getElementById('empty-try-prompt').addEventListener('click', () => switchPanel('prompts'));
 
     // Initial render
     renderVault();
     renderMemories();
+
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
   </script>
 </body>
 </html>
