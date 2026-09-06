@@ -1,0 +1,9 @@
+{
+  "name": "letters-to-heaven",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {"dev":"concurrently \"vite\" \"node server/index.js\"","build":"vite build","preview":"vite preview","server":"node server/index.js"},
+  "dependencies": {"@vitejs/plugin-react":"latest","concurrently":"latest","express":"latest","openai":"latest","react":"latest","react-dom":"latest","vite":"latest"},
+  "devDependencies": {}
+}
