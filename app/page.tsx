@@ -22,16 +22,37 @@ function Auth({client}:{client:SupabaseClient}){
 
 export default function Home(){
   const [user,setUser]=useState<User|null>(null); const [loading,setLoading]=useState(Boolean(supabase));
-  useEffect(()=>{const client=supabase;if(!client)return;client.auth.getUser().then(({data})=>{setUser(data.user);setLoading(false)});const {data}=client.auth.onAuthStateChange((_e,s)=>setUser(s?.user??null));return()=>data.subscription.unsubscribe()},[]);
+  useEffect(()=>{
+    const client=supabase;
+    if(!client)return;
+    let active=true;
+    let authChanged=false;
+    const {data}=client.auth.onAuthStateChange((_event,session)=>{
+      authChanged=true;
+      if(!active)return;
+      setUser(session?.user??null);
+      setLoading(false);
+    });
+    client.auth.getUser().then(({data})=>{
+      if(!active||authChanged)return;
+      setUser(data.user);
+      setLoading(false);
+    }).catch(()=>{
+      if(!active||authChanged)return;
+      setUser(null);
+      setLoading(false);
+    });
+    return()=>{active=false;data.subscription.unsubscribe()};
+  },[]);
   if(loading)return <div className="auth"><div className="authbox"><h1>Letters to Heaven</h1><p className="sub">Opening your private space…</p></div></div>;
   if(!supabase)return <div className="auth"><div className="authbox"><h1>Letters to Heaven</h1><p className="sub">A quiet place for what remains.</p><div className="notice">Production configuration is not connected yet. Add the Supabase environment variables to Vercel to enable accounts and private storage.</div></div></div>;
   if(!user)return <Auth client={supabase}/>;
-  return <App client={supabase} user={user}/>;
+  return <App key={user.id} client={supabase} user={user}/>;
 }
 
 function App({client,user}:{client:SupabaseClient;user:User}){
   const [tab,setTab]=useState("write"); const [letters,setLetters]=useState<Letter[]>([]); const [memories,setMemories]=useState<Memory[]>([]); const [recipient,setRecipient]=useState(""); const [tags,setTags]=useState(""); const [body,setBody]=useState(""); const [memory,setMemory]=useState(""); const [message,setMessage]=useState(""); const [selected,setSelected]=useState<Letter|null>(null); const [saving,setSaving]=useState(false);
-  useEffect(()=>{let active=true;Promise.all([client.from("letters").select("*").order("updated_at",{ascending:false}),client.from("memories").select("*").order("created_at",{ascending:false})]).then(([l,m])=>{if(!active)return;if(l.error||m.error){setMessage("We could not open your private entries. Please try again.");return}setLetters(l.data);setMemories(m.data)});return()=>{active=false}},[client]);
+  useEffect(()=>{let active=true;Promise.all([client.from("letters").select("*").eq("user_id",user.id).order("updated_at",{ascending:false}),client.from("memories").select("*").eq("user_id",user.id).order("created_at",{ascending:false})]).then(([l,m])=>{if(!active)return;if(l.error||m.error){setMessage("We could not open your private entries. Please try again.");return}setLetters(l.data);setMemories(m.data)});return()=>{active=false}},[client,user.id]);
   const displayName=useMemo(()=>user.user_metadata?.display_name||user.email?.split("@")[0]||"friend",[user]);
   function toast(t:string){setMessage(t);window.setTimeout(()=>setMessage(""),2500)}
   async function saveLetter(){if(!recipient.trim()||!body.trim())return;setSaving(true);const {data,error}=await client.from("letters").insert({user_id:user.id,recipient:recipient.trim(),tags:tags.split(",").map(x=>x.trim()).filter(Boolean).slice(0,10),body:body.trim()}).select().single();setSaving(false);if(error){toast("We could not save your letter. Please try again.");return}setLetters(x=>[data,...x]);setRecipient("");setTags("");setBody("");toast("Your letter has been kept private.");setTab("vault")}
